@@ -26,7 +26,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.get("", response_model=List[UserRead], status_code=status.HTTP_200_OK, **common_props)
 def read_users(session: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100):
     statement = select(User).offset(offset).limit(limit)
-    users = session.exec(statement)
+    users = session.exec(statement).all()
 
     return users
 
